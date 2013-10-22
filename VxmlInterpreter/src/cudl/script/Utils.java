@@ -55,6 +55,12 @@ public class Utils {
 	}
 
 	public static List<VoiceXmlNode> serachItems(VoiceXmlNode currentFormItem, String itemName) {
-		return null;
+		ArrayList<VoiceXmlNode> searchResult = new ArrayList<VoiceXmlNode>();
+		for (VoiceXmlNode voiceXmlNode : currentFormItem.getChilds()) {
+			if(voiceXmlNode.getNodeName().equals(itemName)){
+				searchResult.add(voiceXmlNode);
+			}
+		}
+		return searchResult;
 	}
 }
