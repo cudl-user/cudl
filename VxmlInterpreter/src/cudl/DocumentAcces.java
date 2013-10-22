@@ -80,8 +80,14 @@ public class DocumentAcces {
 		URL url = ((getLastBaseUrl() == null) ? new URL(uri) : new URL(getLastBaseUrl(), uri));
 		URLConnection connection = (URLConnection) url.openConnection();
 		connection.setRequestProperty("User-agent", userAgent);
-		//		 setCookies(connection);
+		
+		if (connection instanceof HttpURLConnection) {
+			HttpURLConnection httpConnection = (HttpURLConnection) connection;
+			setCookies(httpConnection);
+		}
 		setLastBaseUrl(url);
+		System.out.println(url);
+		
 		return documentBuilder.parse(connection.getInputStream());
 	}
 
@@ -89,10 +95,7 @@ public class DocumentAcces {
 		if (cookies != null)
 			connection.setRequestProperty("Cookie", cookies);
 
-		String tmpCookies = connection.getHeaderField("Set-Cookie");
-		if (tmpCookies != null) {
-			cookies = tmpCookies.replaceAll(";.*", "");
-		}
+			cookies = connection.getHeaderField("Set-Cookie");
 	}
 
 	@SuppressWarnings("unused")

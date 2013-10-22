@@ -153,7 +153,10 @@ public class Executor {
 
 	public Object execute(Submit submit) throws InterpreterException {
 		String nextFilename = submit.getAttribute("next");
-		String params = getParameterList(submit.getAttribute("namelist"));
+		String params ="";
+		if(null != submit.getAttribute("namelist")){
+			params = getParameterList(submit.getAttribute("namelist"));
+		}
 		String url = nextFilename + params;
 		LOGGER.info("submit :"+url);
 		throw new DocumentChangeException(url, submit.getAttribute("method"));
