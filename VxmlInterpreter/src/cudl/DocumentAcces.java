@@ -95,7 +95,10 @@ public class DocumentAcces {
 		if (cookies != null)
 			connection.setRequestProperty("Cookie", cookies);
 
-			cookies = connection.getHeaderField("Set-Cookie");
+		String tmpCookies = connection.getHeaderField("Set-Cookie");
+		if (tmpCookies != null) {
+			cookies = tmpCookies.replaceAll(";.*", "");
+		}
 	}
 
 	@SuppressWarnings("unused")

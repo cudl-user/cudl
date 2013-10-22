@@ -16,7 +16,7 @@ public class Interpreter {
 	private static final String TRANSFER_INPUT_TYPE = "transfer$";
 	private static final String EVENT_INPUT_TYPE = "event$";
 	private static final String DTMF_INPUT_TYPE = "dtmf$";
-	private static final int JOIN_TIME = 200;
+	private static final int JOIN_TIME = 1000;
 	
 	protected InterpreterContext interpreterContext;
 	protected FormInterpretationAlgorithm formInterpretationAlgorithm;

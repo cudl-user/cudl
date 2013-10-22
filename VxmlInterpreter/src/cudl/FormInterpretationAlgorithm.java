@@ -546,11 +546,13 @@ public class FormInterpretationAlgorithm extends Thread implements FormItemVisit
 	private void setUterrance(Field field, String input) {
 		String[] split = input.split("\\$");
 		String utterance = "'" + split[1] + "'";
-		String inputmode = "'" + split[1] + "'";
+		String inputmode = "'" + split[0] + "'";
 		getScription().set(field.getName(), utterance);
 		getScription().put(field.getName() + "$", "new Object()");
 		getScription().eval("application.lastresult$.utterance =" + field.getName() + "$.utterance=" + utterance);
+		getScription().eval("application.lastresult$[0].utterance =" + utterance);
 		getScription().eval("application.lastresult$.inputmode =" + field.getName() + "$.inputmode=" + inputmode);
+		getScription().eval("application.lastresult$[0].inputmode =" + inputmode);
 		getScription().eval(field.getName() + "$.confidence=" + 1);
 	}
 
