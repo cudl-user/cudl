@@ -73,7 +73,7 @@ public class InterpreterTest extends TestCase {
 		System.err.println(expectedPrompts);
 		System.err.println(interpreter.getPrompts());
 		assertEquals(expectedPrompts, interpreter.getPrompts());
-		assertFalse(interpreter.hungup());
+		assertFalse(interpreter.hangup());
 	}
 
 	@Test
@@ -115,7 +115,7 @@ public class InterpreterTest extends TestCase {
 
 		assertFalse(interpreter.getLogs().isEmpty());
 		assertEquals(expectedLogs, interpreter.getLogs());
-		assertFalse(interpreter.hungup());
+		assertFalse(interpreter.hangup());
 	}
 
 	@Test
@@ -139,7 +139,7 @@ public class InterpreterTest extends TestCase {
 		// a pas hungup
 		assertFalse(interpreter.getLogs().isEmpty());
 		assertEquals(expectedLogs, interpreter.getLogs());
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 	}
 
 	@Test

@@ -16,7 +16,7 @@ public class Interpreter {
 	private static final String TRANSFER_INPUT_TYPE = "transfer$";
 	private static final String EVENT_INPUT_TYPE = "event$";
 	private static final String DTMF_INPUT_TYPE = "dtmf$";
-	private static final int JOIN_TIME = 1000;
+	private static final int JOIN_TIME = 350;
 	
 	protected InterpreterContext interpreterContext;
 	protected FormInterpretationAlgorithm formInterpretationAlgorithm;
@@ -34,155 +34,118 @@ public class Interpreter {
 	}
 
 	public void start() throws IOException, SAXException {
+		this.formInterpretationAlgorithm.start();
+		LOGGER.error("wait for interpretation ...");
+		sleep();
+		LOGGER.error("... end of interpretation");
+	}
+
+	private void sleep()  {
 		try {
-			this.formInterpretationAlgorithm.start();
-			LOGGER.debug("wait for interpretation ...");
 			Thread.sleep(JOIN_TIME);
-			LOGGER.debug("... en of interpretation");
 		} catch (InterruptedException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
 
 	public void noInput() throws IOException, SAXException, ParserConfigurationException {
-		try {
-			enterInput("noinput", EVENT_INPUT_TYPE);
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		doUserAction("noinput", EVENT_INPUT_TYPE);
 	}
+	
 
 	public void noMatch() throws IOException, SAXException, ParserConfigurationException {
-		try {
-			enterInput("nomatch", EVENT_INPUT_TYPE);
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		doUserAction("nomatch", EVENT_INPUT_TYPE);
 	}
 
 	public void disconnect() throws IOException, SAXException, ParserConfigurationException {
-		try {
-			enterInput("connection.disconnect.hangup", EVENT_INPUT_TYPE);
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		doUserAction("connection.disconnect.hangup", EVENT_INPUT_TYPE);
 	}
 
 	public void blindTransferSuccess() throws IOException, SAXException, ParserConfigurationException {
-		try {
-			interpreterContext.getScripting().eval("connection.protocol.isdnvn6.transferresult= '0'");
-			enterInput("connection.disconnect.transfer", EVENT_INPUT_TYPE);
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		interpreterContext.getScripting().eval("connection.protocol.isdnvn6.transferresult= '0'");
+		doUserAction("connection.disconnect.transfer", EVENT_INPUT_TYPE);
 	}
 
 	public void noAnswer() throws IOException, SAXException, ParserConfigurationException {
-		try {
-			interpreterContext.getScripting().eval("connection.protocol.isdnvn6.transferresult= '2'");
-			enterInput("'noanswer'", TRANSFER_INPUT_TYPE);
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		interpreterContext.getScripting().eval("connection.protocol.isdnvn6.transferresult= '2'");
+		doUserAction("'noanswer'", TRANSFER_INPUT_TYPE);
 	}
 
 	public void callerHangupDuringTransfer() throws IOException, SAXException, ParserConfigurationException {
-		try {
-			enterInput("'near_end_disconnect'", TRANSFER_INPUT_TYPE);
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		doUserAction("'near_end_disconnect'", TRANSFER_INPUT_TYPE);
 	}
 
 	public void networkBusy() throws IOException, SAXException, ParserConfigurationException {
-		try {
-			interpreterContext.getScripting().eval("connection.protocol.isdnvn6.transferresult= '5'");
-			enterInput("'network_busy'", TRANSFER_INPUT_TYPE);
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		interpreterContext.getScripting().eval("connection.protocol.isdnvn6.transferresult= '5'");
+		doUserAction("'network_busy'", TRANSFER_INPUT_TYPE);
 	}
 
 	public void destinationBusy() throws IOException, SAXException, ParserConfigurationException {
-		try {
-			enterInput("'busy'", TRANSFER_INPUT_TYPE);
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		doUserAction("'busy'", TRANSFER_INPUT_TYPE);
 	}
 
 	public void transferTimeout() throws IOException, SAXException, ParserConfigurationException {
-		try {
-			enterInput("'maxtime_disconnect'", TRANSFER_INPUT_TYPE);
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		doUserAction("'maxtime_disconnect'", TRANSFER_INPUT_TYPE);
 	}
 
 	public void talk(String sentence) {
-		try {
-			enterInput(sentence, "voice$");
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private void enterInput(String sentence, String inputType) throws InterruptedException {
-		Speaker speaker = new Speaker(interpreterContext.getInput());
-		speaker.setUtterance(inputType + sentence);
-		speaker.start();
-		speaker.join();
+		doUserAction(sentence, "voice$");
 	}
 
 	public void submitDtmf(String dtmf) throws IOException, SAXException, ParserConfigurationException {
-		try {
-			enterInput(dtmf, DTMF_INPUT_TYPE);
-			this.formInterpretationAlgorithm.join(JOIN_TIME);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		doUserAction(dtmf, DTMF_INPUT_TYPE);
 	}
 
 	public List<String> getLogsWithLabel(String... label) {
+		sleep();
 		return this.interpreterContext.getOutput().getLogs(label);
 	}
 
 	public List<String> getLogs() {
+		sleep();
 		return this.interpreterContext.getOutput().getLogs();
 	}
 
-	public boolean hungup() {
+	public boolean hangup() {
+		sleep();
 		return this.formInterpretationAlgorithm.isHangup;
 	}
 
 	public List<Prompt> getPrompts() {
+		sleep();
 		return this.interpreterContext.getOutput().getPrompts();
 	}
 
 	public String getTranferDestination() {
+		sleep();
 		return this.interpreterContext.getOutput().getTranferDestination();
 	}
 
 	public String getActiveGrammar() {
+		sleep();
 		return this.interpreterContext.getOutput().getActiveGrammar();
 	}
 
 	public Properties getCurrentDialogProperties() {
+		sleep();
 		return this.formInterpretationAlgorithm.getProperties();
 	}
 
 	public void destinationHangup() throws IOException, SAXException, ParserConfigurationException {
-		throw new RuntimeException("destinationHangup not implemented");
-		// internalInterpreter.interpret(DESTINATION_HANGUP, null);
+		sleep();
+		doUserAction("'far_end_disconnect'", TRANSFER_INPUT_TYPE);
+	}
+
+	private void doUserAction(String sentence, String action) {
+		Speaker speaker = new Speaker(interpreterContext.getInput());
+		speaker.setUtterance(action + sentence);
+		speaker.start();
+		try {
+			speaker.join();
+			formInterpretationAlgorithm.join(JOIN_TIME);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

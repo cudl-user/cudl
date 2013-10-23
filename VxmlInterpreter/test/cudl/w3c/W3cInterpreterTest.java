@@ -629,7 +629,7 @@ public class W3cInterpreterTest {
 			interpreter = new Interpreter(url2);
 			interpreter.start();
 
-			assertTrue(interpreter.hungup());
+			assertTrue(interpreter.hangup());
 			System.out.println("Test " + list[i] + "  passed");
 		}
 	}
@@ -645,7 +645,7 @@ public class W3cInterpreterTest {
 		interpreter = new Interpreter(url + "w3c/assert165.txml");
 		interpreter.start();
 
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 	}
 
 	@Test
@@ -665,7 +665,7 @@ public class W3cInterpreterTest {
 		interpreter.start();
 		interpreter.noInput();
 
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 		assertEquals(exceptedPrompts, interpreter.getPrompts());
 	}
 
@@ -685,7 +685,7 @@ public class W3cInterpreterTest {
 		interpreter.noInput();
 		interpreter.noInput();
 
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 		assertEquals(exceptedPrompts, interpreter.getPrompts());
 	}
 
@@ -704,7 +704,7 @@ public class W3cInterpreterTest {
 		interpreter.start();
 		interpreter.noInput();
 
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 		assertEquals(exceptedPrompts, interpreter.getPrompts());
 	}
 
@@ -723,7 +723,7 @@ public class W3cInterpreterTest {
 		interpreter.start();
 		interpreter.noInput();
 
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 		assertEquals(exceptedPrompts, interpreter.getPrompts());
 	}
 

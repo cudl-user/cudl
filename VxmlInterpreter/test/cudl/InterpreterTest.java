@@ -65,7 +65,7 @@ public class InterpreterTest {
 
 		assertEquals(traceLog, interpreter.getLogs());
 		assertEquals(traceStat, interpreter.getLogsWithLabel("stats"));
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class InterpreterTest {
 		assertEquals(traceStat, interpreter.getLogsWithLabel("stats"));
 
 		assertEquals(traceLog, interpreter.getLogs());
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 	}
 
 	@Test
@@ -105,7 +105,7 @@ public class InterpreterTest {
 		assertTrue(interpreter.getLogsWithLabel("stats").isEmpty());
 
 		assertEquals(traceLog, interpreter.getLogs());
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 	}
 
 	@Test
@@ -139,39 +139,39 @@ public class InterpreterTest {
 	}
 
 	@Test
-	public void testCollectPrompt() throws IOException, ParserConfigurationException, SAXException {
-		List<Prompt> prompts = new ArrayList<Prompt>();
-		Prompt promptExecepeted;
-
-		promptExecepeted = new Prompt();
-		promptExecepeted.timeout = "200ms";
-		promptExecepeted.bargein = "true";
-		promptExecepeted.audio = "/ROOT/prompts/WAV/ACCUEIL_CHOIX_TARIFS.wav";
-		promptExecepeted.tts = "Pour avoir des informations détaillées sur ce tarif, dites : « tarif ».";
-		prompts.add(promptExecepeted);
-
-		promptExecepeted = new Prompt();
-		promptExecepeted.tts = "dites tarif.";
-		prompts.add(promptExecepeted);
-
-		promptExecepeted = new Prompt();
-		promptExecepeted.timeout = "300ms";
-		promptExecepeted.bargein = "true";
-		promptExecepeted.audio = "/ROOT/prompts/WAV/ACCUEIL_CHOIX_TARIFS.wav";
-		promptExecepeted.tts = "Pour avoir des informations détaillées sur ce tarif, dites : « tarif ».";
-		prompts.add(promptExecepeted);
-
-		promptExecepeted = new Prompt();
-		promptExecepeted.tts = "dites tarif.";
-		prompts.add(promptExecepeted);
-
-		interpreter = new Interpreter(url + "prompt.vxml");
-		interpreter.start();
-
-		System.err.println(prompts);
-		System.err.println(interpreter.getPrompts());
-		assertEquals(prompts, interpreter.getPrompts());
-	}
+		public void testDoUserActionPrompt() throws IOException, ParserConfigurationException, SAXException {
+			List<Prompt> prompts = new ArrayList<Prompt>();
+			Prompt promptExecepeted;
+	
+			promptExecepeted = new Prompt();
+			promptExecepeted.timeout = "200ms";
+			promptExecepeted.bargein = "true";
+			promptExecepeted.audio = "/ROOT/prompts/WAV/ACCUEIL_CHOIX_TARIFS.wav";
+			promptExecepeted.tts = "Pour avoir des informations détaillées sur ce tarif, dites : « tarif ».";
+			prompts.add(promptExecepeted);
+	
+			promptExecepeted = new Prompt();
+			promptExecepeted.tts = "dites tarif.";
+			prompts.add(promptExecepeted);
+	
+			promptExecepeted = new Prompt();
+			promptExecepeted.timeout = "300ms";
+			promptExecepeted.bargein = "true";
+			promptExecepeted.audio = "/ROOT/prompts/WAV/ACCUEIL_CHOIX_TARIFS.wav";
+			promptExecepeted.tts = "Pour avoir des informations détaillées sur ce tarif, dites : « tarif ».";
+			prompts.add(promptExecepeted);
+	
+			promptExecepeted = new Prompt();
+			promptExecepeted.tts = "dites tarif.";
+			prompts.add(promptExecepeted);
+	
+			interpreter = new Interpreter(url + "prompt.vxml");
+			interpreter.start();
+	
+			System.err.println(prompts);
+			System.err.println(interpreter.getPrompts());
+			assertEquals(prompts, interpreter.getPrompts());
+		}
 
 	@Test
 	public void testCombinattionPromptTrace() throws IOException, ParserConfigurationException, SAXException {
@@ -400,7 +400,7 @@ public class InterpreterTest {
 		interpreter.submitDtmf("3");
 
 		assertEquals(exceptedPrompts, interpreter.getPrompts());
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 	}
 
 	@Test
@@ -418,7 +418,7 @@ public class InterpreterTest {
 		interpreter.talk("anglais");
 
 		assertEquals(exceptedPrompts, interpreter.getPrompts());
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 	}
 
 	@Test
@@ -440,7 +440,7 @@ public class InterpreterTest {
 		interpreter.talk("anglais");
 
 		assertEquals(exceptedPrompts, interpreter.getPrompts());
-		assertTrue(interpreter.hungup());
+		assertTrue(interpreter.hangup());
 	}
 
 	@Test

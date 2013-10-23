@@ -54,6 +54,7 @@ public class FormInterpretationAlgorithm extends Thread implements FormItemVisit
 	private Logger LOGGER = Logger.getRootLogger();
 	private InterpreterContext interpreterContext;
 	
+	
 	protected FormInterpretationAlgorithm(InterpreterContext interpreterContext) {
 		this.interpreterContext = interpreterContext;
 		this.executor = new Executor(getScription(), getOutput(),  getDocumentAccess());
@@ -92,8 +93,9 @@ public class FormInterpretationAlgorithm extends Thread implements FormItemVisit
 	@Override
 	public void visit(Field field) throws InterpreterException {
 		this.playPrompt();
-		String input = getUserInput().readData();
+		String input = getInput();
 		while (input == null || !"voice dtmf".contains(input.split("\\$")[0])) {
+			LOGGER.error("WAIT USER INPUT IN FIELD");
 			if (input != null) {
 				String eventType = input.split("\\$")[1];
 				InterpreterEventHandler.doEvent(field, executor, eventType, getEventCount(eventType));
@@ -392,13 +394,13 @@ public class FormInterpretationAlgorithm extends Thread implements FormItemVisit
 	private String getInput() throws InterpreterException {
 		String input = getUserInput().readData();
 		while (input == null || !"voice dtmf transfer".contains(input.split("\\$")[0])) {
+			LOGGER.error("WAIT FOR USER INPUT");
 			if (input != null) {
 				String eventType = input.split("\\$")[1];
 				InterpreterEventHandler.doEvent(currentDialog, executor, eventType, getEventCount(eventType));
 				updateEventCount(eventType);
 			}
 			input = getUserInput().readData();
-
 			Thread.yield();
 		}
 		return input;
