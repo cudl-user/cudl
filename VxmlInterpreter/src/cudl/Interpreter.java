@@ -16,7 +16,7 @@ public class Interpreter {
 	private static final String TRANSFER_INPUT_TYPE = "transfer$";
 	private static final String EVENT_INPUT_TYPE = "event$";
 	private static final String DTMF_INPUT_TYPE = "dtmf$";
-	private static final int JOIN_TIME = 50;
+	private static final int JOIN_TIME = 100;
 	
 	protected InterpreterContext interpreterContext;
 	protected FormInterpretationAlgorithm formInterpretationAlgorithm;
@@ -42,7 +42,7 @@ public class Interpreter {
 
 	private void sleep()  {
 		try {
-			Thread.sleep(JOIN_TIME * 5);
+			Thread.sleep(JOIN_TIME * 4);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -138,6 +138,7 @@ public class Interpreter {
 	}
 
 	private void doUserAction(String sentence, String action) {
+		sleep();
 		Speaker speaker = new Speaker(interpreterContext.getInput());
 		speaker.setUtterance(action + sentence);
 		speaker.start();
