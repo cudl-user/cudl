@@ -16,7 +16,7 @@ public class Interpreter {
 	private static final String TRANSFER_INPUT_TYPE = "transfer$";
 	private static final String EVENT_INPUT_TYPE = "event$";
 	private static final String DTMF_INPUT_TYPE = "dtmf$";
-	private static final int JOIN_TIME = 350;
+	private static final int JOIN_TIME = 50;
 	
 	protected InterpreterContext interpreterContext;
 	protected FormInterpretationAlgorithm formInterpretationAlgorithm;
@@ -42,7 +42,7 @@ public class Interpreter {
 
 	private void sleep()  {
 		try {
-			Thread.sleep(JOIN_TIME);
+			Thread.sleep(JOIN_TIME * 5);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
