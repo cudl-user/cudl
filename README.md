@@ -11,9 +11,9 @@ find src/ -name '*.java' -exec cat \{\} \; | sed -e 's:\(.\):\1\n:g'  |sort | un
 
 ## Quick Start
 1. git clone https://github.com/multimediabs/cudl
-2. cd cudl/VoiceInterpreter
+2. cd cudl/VxmlInterpreter/
 3. ant clean jar
-4. Put the cudl[VERSION].jar in your java project and you just follow the example bellow.
+4. Put the target/cudl_[VERSION].jar in your java project and you just follow the example bellow.
 
 ## Example
 This is a sample "hello world" in VoiceXML.
