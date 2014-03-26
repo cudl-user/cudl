@@ -1,14 +1,16 @@
-cudl is a voice xml tester under development.
+[Cudl](https://github.com/multimediabs/cudl) is a voice xml tester under development.
 
-cudl is named after the nicer combination resulted 
+[Cudl](https://github.com/multimediabs/cudl) is named after the nicer combination resulted 
 from this command during the first github import...
 
-$> find src/ -name '*.java' -exec cat \{\} \; | sed -e 's:\(.\):\1\n:g'  |sort | uniq  -c | sort -n | less
+```sh
+find src/ -name '*.java' -exec cat \{\} \; | sed -e 's:\(.\):\1\n:g'  |sort | uniq  -c | sort -n | less
+```
 
 [Cudl](https://github.com/multimediabs/cudl) is a VoiceXML testing tool. 
 
 ## Quick Start
-1. Download the jar [here](https://github.com/downloads/multimediabs/cudl/cudl_v0.2.6.jar).
+1. 
 2. Put it in your java project and you just follow the example bellow.
 
 ## Example
