@@ -7,8 +7,6 @@ from this command during the first github import...
 find src/ -name '*.java' -exec cat \{\} \; | sed -e 's:\(.\):\1\n:g'  |sort | uniq  -c | sort -n | less
 ```
 
-[Cudl](https://github.com/multimediabs/cudl) is a VoiceXML testing tool. 
-
 ## Quick Start
 1. git clone https://github.com/multimediabs/cudl
 2. cd cudl/VxmlInterpreter/
